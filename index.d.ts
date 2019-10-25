@@ -5,7 +5,7 @@ export function handler(routeConfig: RouteConfig): any;
 
 export interface ProxyIntegrationRoute {
     path: string;
-    method: string;
+    method: Method;
     action: (request: any, context: any) => any;
 }
 
@@ -56,3 +56,12 @@ export interface RouteConfig {
     sqs?: SqsConfig;
     s3?: S3Config;
 }
+
+export type Method =
+  | 'get' | 'GET'
+  | 'delete' | 'DELETE'
+  | 'head' | 'HEAD'
+  | 'options' | 'OPTIONS'
+  | 'post' | 'POST'
+  | 'put' | 'PUT'
+  | 'patch' | 'PATCH'
