@@ -65,6 +65,11 @@ export interface RouteConfig {
     s3?: S3Config;
 }
 
+export interface HttpError<T = any> extends Error {
+    statusCode: number
+    body: T
+}
+
 export type Method =
   | 'get' | 'GET'
   | 'delete' | 'DELETE'
