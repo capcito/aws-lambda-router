@@ -13,7 +13,7 @@ export interface AWSLamdaRouterRequest<BODY = any, PATHS = any> extends APIGatew
 export interface ProxyIntegrationRoute {
     path: string;
     method: Method;
-    action: (request: any, context: any) => any;
+    action: (request: AWSLamdaRouterRequest, context: any) => any;
 }
 
 export interface ProxyIntegrationConfig {
