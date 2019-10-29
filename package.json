@@ -29,5 +29,8 @@
   "devDependencies": {
     "jasmine": "3.4.0",
     "proxyquire": "2.1.0"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.34"
   }
 }
