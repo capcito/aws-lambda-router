@@ -66,8 +66,8 @@ export interface RouteConfig {
 }
 
 export interface HttpError<T = any> extends Error {
-    statusCode: number
-    body: T
+    status: number
+    body?: T
 }
 
 export type Method =
