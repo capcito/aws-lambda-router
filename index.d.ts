@@ -1,6 +1,6 @@
 // Type definitions for aws-lambda-router
 // Project: github.com/spring-media/aws-lambda-router
-import { APIGatewayProxyEvent } from 'aws-lambda';
+import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from 'aws-lambda';
 
 export function handler(routeConfig: RouteConfig): any;
 
@@ -13,7 +13,8 @@ export interface AWSLamdaRouterRequest<BODY = any, PATHS = any> extends APIGatew
 export interface ProxyIntegrationRoute {
     path: string;
     method: Method;
-    action: (request: AWSLamdaRouterRequest, context: any) => any;
+    onError?: (request: AWSLamdaRouterRequest, context: Context, error: Error) => APIGatewayProxyResult;
+    action: (request: AWSLamdaRouterRequest, context: Context) => any;
 }
 
 export interface ProxyIntegrationConfig {
