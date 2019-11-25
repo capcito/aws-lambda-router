@@ -13,7 +13,7 @@ export interface AWSLamdaRouterRequest<BODY = any, PATHS = any> extends APIGatew
 export interface ProxyIntegrationRoute {
     path: string;
     method: Method;
-    onError?: (request: AWSLamdaRouterRequest, context: Context, error: Error) => APIGatewayProxyResult;
+    onError?: (error?: Error, request?: AWSLamdaRouterRequest, context?: Context) => APIGatewayProxyResult;
     action: (request: AWSLamdaRouterRequest, context: Context) => any;
 }
 
@@ -24,7 +24,7 @@ export interface ProxyIntegrationConfig {
     errorMapping?: any;
     defaultHeaders?: string;
     proxyPath?: string;
-    onError?: (error: Error, request?: APIGatewayProxyEvent, context?: Context, headers?: []) => APIGatewayProxyResult | void;
+    onError?: (error?: Error, request?: APIGatewayProxyEvent, context?: Context) => APIGatewayProxyResult | void;
 }
 
 export interface SnsRoute {
