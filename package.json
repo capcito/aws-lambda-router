@@ -1,6 +1,6 @@
 {
   "name": "aws-lambda-router",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "AWS lambda router",
   "main": "index.js",
   "types": "index.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/spring-media/aws-lambda-router.git"
+    "url": "git+https://github.com/capcito/aws-lambda-router.git"
   },
   "keywords": [
     "aws",
