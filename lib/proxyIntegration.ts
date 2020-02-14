@@ -5,7 +5,8 @@ type ProxyIntegrationParams = {
   paths?: { [paramId: string]: string }
 }
 type ProxyIntegrationBody<T = unknown> = {
-  body: T
+  body: string | null,
+  parsedBody?: T
 }
 export type ProxyIntegrationEvent<T = unknown> = Omit<APIGatewayProxyEvent, 'body'> & ProxyIntegrationParams & ProxyIntegrationBody<T>
 export type ProxyIntegrationResult = Omit<APIGatewayProxyResult, 'statusCode'> & { statusCode?: APIGatewayProxyResult['statusCode'] }
@@ -133,14 +134,9 @@ export const process: ProcessMethod<ProxyIntegrationConfig, APIGatewayProxyEvent
       proxyEvent.paths = actionConfig.paths
       if (event.body) {
         try {
-          proxyEvent.body = JSON.parse(event.body)
+          proxyEvent.parsedBody = JSON.parse(event.body)
         } catch (parseError) {
           console.log(`Could not parse body as json: ${event.body}`, parseError)
-          return {
-            statusCode: 400,
-            headers,
-            body: JSON.stringify({ message: 'body is not a valid JSON', error: 'ParseError' })
-          }
         }
       }
       return processActionAndReturn(actionConfig, proxyEvent, context, headers).catch(error => {
@@ -155,7 +151,7 @@ export const process: ProcessMethod<ProxyIntegrationConfig, APIGatewayProxyEvent
 
 const normalizeRequestPath = (event: APIGatewayProxyEvent): string => {
   if (isLocalExecution(event)) {
-    return event.path
+    return event.path ?? ''
   }
 
   // ugly hack: if host is from API-Gateway 'Custom Domain Name Mapping', then event.path has the value '/basepath/resource-path/'
@@ -163,11 +159,11 @@ const normalizeRequestPath = (event: APIGatewayProxyEvent): string => {
   const apiId = event.requestContext ? event.requestContext.apiId : null // the apiId that is the first part of the amazonaws.com-host
   if ((apiId && event.headers && event.headers.Host && event.headers.Host.substring(0, apiId.length) !== apiId)) {
     // remove first path element:
-    const groups = /\/[^\/]+(.*)/.exec(event.path) || [null, null]
+    const groups = /\/[^\/]+(.*)/.exec(event.path ?? '') || [null, null]
     return groups[1] || '/'
   }
 
-  return event.path
+  return event.path ?? ''
 }
 
 const hasReason = (error: any): error is { reason: string } => typeof error.reason === 'string'
