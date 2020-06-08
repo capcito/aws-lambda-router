@@ -25,6 +25,7 @@ export interface ProxyIntegrationConfig {
     defaultHeaders?: string;
     proxyPath?: string;
     onError?: (error?: Error, request?: APIGatewayProxyEvent, context?: Context) => APIGatewayProxyResult | void;
+    onRequest?: (request: APIGatewayProxyEvent, context?: Context) => void;
 }
 
 export interface SnsRoute {
