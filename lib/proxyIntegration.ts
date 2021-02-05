@@ -82,6 +82,7 @@ export const process: ProcessMethod<ProxyIntegrationConfig, APIGatewayProxyEvent
       console.log('Lambda event: ', event)
       console.log('Lambda context: ', context)
     }
+    console.log('hej hej');
 
     //validate config
     if (!Array.isArray(proxyIntegrationConfig.routes) || proxyIntegrationConfig.routes.length < 1) {
