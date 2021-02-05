@@ -20,7 +20,7 @@ export interface ProxyIntegrationRoute {
   action: (
     request: ProxyIntegrationEvent<unknown>,
     context: APIGatewayEventRequestContext
-  ) => ProxyIntegrationResult | Promise<ProxyIntegrationResult> | string | Promise<string>
+  ) => ProxyIntegrationResult | Promise<ProxyIntegrationResult> | any | Promise<any>
 }
 
 export type ProxyIntegrationErrorMapping = {
