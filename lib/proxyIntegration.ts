@@ -8,10 +8,10 @@ type ProxyIntegrationParams = {
   routePath?: string
 }
 type ProxyIntegrationBody<T = unknown> = {
-  body: T
+  parsedBody?: T
 }
 type ErrorHandler = (error?: Error, request?: APIGatewayProxyEvent, context?: APIGatewayEventRequestContext) => Promise<APIGatewayProxyResult | void> | APIGatewayProxyResult | void
-export type ProxyIntegrationEvent<T = unknown> = Omit<APIGatewayProxyEvent, 'body'> & ProxyIntegrationParams & ProxyIntegrationBody<T>
+export type ProxyIntegrationEvent<T = unknown> = APIGatewayProxyEvent & ProxyIntegrationParams & ProxyIntegrationBody<T>
 export type ProxyIntegrationResult = Omit<APIGatewayProxyResult, 'statusCode'> & { statusCode?: APIGatewayProxyResult['statusCode'] }
 
 export interface ProxyIntegrationRoute {
@@ -131,9 +131,10 @@ export const process: ProcessMethod<ProxyIntegrationConfig, APIGatewayProxyEvent
 
       proxyEvent.paths = actionConfig.paths
       proxyEvent.routePath = actionConfig.routePath
-      if (event.body) {
+      const isJson = event.headers['Content-Type'] && event.headers['Content-Type'].toUpperCase() === 'APPLICATION/JSON';
+      if (event.body && isJson) {
         try {
-          proxyEvent.body = JSON.parse(event.body)
+          proxyEvent.parsedBody = JSON.parse(event.body)
         } catch (parseError) {
           console.log(`Could not parse body as json: ${event.body}`, parseError)
           return {
