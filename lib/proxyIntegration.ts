@@ -7,18 +7,18 @@ type ProxyIntegrationParams = {
   paths?: { [paramId: string]: string }
   routePath?: string
 }
-type ProxyIntegrationBody<T = unknown> = {
+type ProxyIntegrationBody<T = any> = {
   parsedBody?: T
 }
 type ErrorHandler = (error?: Error, request?: APIGatewayProxyEvent, context?: APIGatewayEventRequestContext) => Promise<APIGatewayProxyResult | void> | APIGatewayProxyResult | void
-export type ProxyIntegrationEvent<T = unknown> = APIGatewayProxyEvent & ProxyIntegrationParams & ProxyIntegrationBody<T>
+export type ProxyIntegrationEvent<T = any> = APIGatewayProxyEvent & ProxyIntegrationParams & ProxyIntegrationBody<T>
 export type ProxyIntegrationResult = Omit<APIGatewayProxyResult, 'statusCode'> & { statusCode?: APIGatewayProxyResult['statusCode'] }
 
 export interface ProxyIntegrationRoute {
   path: string
   method: string
   action: (
-    request: ProxyIntegrationEvent<unknown>,
+    request: ProxyIntegrationEvent<any>,
     context: APIGatewayEventRequestContext
   ) => ProxyIntegrationResult | Promise<ProxyIntegrationResult> | any | Promise<any>
 }
