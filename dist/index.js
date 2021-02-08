@@ -46,7 +46,7 @@ exports.handler = (routeConfig) => {
 const extractEventProcessorMapping = (routeConfig) => {
     const processorMap = new Map();
     for (const key of Object.keys(routeConfig)) {
-        if (key === 'debug') {
+        if (key === 'debug' || key === 'onError') {
             continue;
         }
         try {
